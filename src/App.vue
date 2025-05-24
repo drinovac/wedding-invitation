@@ -1,140 +1,168 @@
 <template>
   <div class="wedding-invitation">
-    <div class="hero-section">
-      <div class="couple-photo">
-        <!-- Replace './assets/image.jpeg' with your actual image file -->
-        <img src="./assets/image.jpeg" alt="Matea i Petar" />
-      </div>
-
-      <div class="hero-content">
-        <h1 class="couple-names">Matea & Petar</h1>
-        <div class="wedding-date">09.11.2025</div>
-        <p class="invitation-text">
-          Pozivamo vas da podijelite s nama<br />
-          najsretniji dan našeg života
-        </p>
+    <!-- Loading Screen -->
+    <div v-if="showLoading" class="loading-screen">
+      <div class="loading-content">
+        <div class="monogram">
+          <div class="letter letter-m">M</div>
+          <div class="letter letter-and">&</div>
+          <div class="letter letter-p">P</div>
+        </div>
+        <div class="loading-date">09.11.2025.</div>
       </div>
     </div>
 
-    <div class="timeline-section">
-      <h2>Program Dana</h2>
+    <!-- Main Content -->
+    <div v-else class="main-content">
+      <!-- Hero Section -->
+      <div class="hero-section">
+        <img
+          src="./assets/image.jpeg"
+          class="frame-image"
+          alt="Matea i Petar"
+        />
 
-      <div class="event-details">
-        <div class="event">
-          <h3>SKUP KOD MLADOŽINJE</h3>
-          <div class="time">13:00H</div>
-          <a
-            href="https://maps.google.com/?q=Ul.Sv.Franje+Asiškog+79,+Čapljina"
-            target="_blank"
-            class="location-link"
-          >
-            Ul.Sv.Franje Asiškog 79
-          </a>
-        </div>
+        <div class="hero-content">
+          <div class="intro-text">
+            <p>
+              Postoje trenuci u životu koji nam zauvijek ostanu u sjećanju i
+              dobiju pravu vrijednost tek kada se podijele s drugima
+            </p>
+          </div>
 
-        <div class="event">
-          <h3>SKUP KOD MLADЕ</h3>
-          <div class="time">14:00H</div>
-          <a
-            href="https://maps.google.com/?q=Hotel+President+Čapljina"
-            target="_blank"
-            class="location-link"
-          >
-            Hotel President Čapljina
-          </a>
-        </div>
+          <div class="couple-names">
+            <h1 class="name">Matea</h1>
+            <h1 class="and">&</h1>
+            <h1 class="name">Petar</h1>
+          </div>
 
-        <div class="event">
-          <h3>VJENČANJE</h3>
-          <div class="time">16:00H</div>
-          <a
-            href="https://maps.google.com/?q=Crkva+Sv.Franje+Asiškog,+Čapljina"
-            target="_blank"
-            class="location-link"
-          >
-            Crkva Sv.Franje Asiškog
-          </a>
-        </div>
-
-        <div class="event">
-          <h3>VEČERA I SLAVLJE</h3>
-          <div class="time">19:00H</div>
-          <a
-            href="https://maps.google.com/?q=Hotel+President+Čapljina"
-            target="_blank"
-            class="location-link"
-          >
-            Hotel President Čapljina
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <div class="rsvp-section">
-      <h2>Potvrdite Dolazak</h2>
-      <p>Molimo vas da potvrdite svoj dolazak do 01.10.2025</p>
-
-      <div class="guest-form">
-        <div class="guest-list">
-          <div
-            v-for="(guest, index) in guests"
-            :key="index"
-            class="guest-input-group"
-          >
-            <div class="input-row">
-              <input
-                v-model="guest.firstName"
-                type="text"
-                placeholder="Ime"
-                class="guest-input"
-              />
-              <input
-                v-model="guest.lastName"
-                type="text"
-                placeholder="Prezime"
-                class="guest-input"
-              />
-              <button
-                @click="removeGuest(index)"
-                class="remove-guest-btn"
-                v-if="guests.length > 1"
-              >
-                ×
-              </button>
+          <div class="wedding-date">
+            <div class="month">Listopad</div>
+            <div class="day">
+              <h1>09.</h1>
+            </div>
+            <div class="year">
+              <p>2025.</p>
             </div>
           </div>
+
+          <div class="invitation-text">
+            <p>Zato vas pozivamo da prisustvujete našem vjenčanju</p>
+          </div>
         </div>
+      </div>
 
-        <button @click="addGuest" class="add-guest-btn">+ Dodaj Gosta</button>
-
-        <button
-          @click="submitRSVP"
-          class="submit-rsvp-btn"
-          :disabled="!canSubmit"
+      <!-- Timeline Section -->
+      <div id="timeline" class="timeline-section">
+        <div
+          v-for="(event, index) in timeline"
+          :key="index"
+          class="timeline-event"
+          :class="{ visible: visibleEvents.includes(index) }"
+          ref="timelineEvents"
         >
-          Potvrdi Dolazak
-        </button>
-
-        <div v-if="showSuccess" class="success-message">
-          Hvala vam! Vaš dolazak je potvrđen.
+          <h2 class="event-time">{{ event.time }}</h2>
+          <h2 class="event-title handwriting">{{ event.title }}</h2>
+          <h4 class="event-location">
+            <a :href="event.mapUrl" target="_blank" class="location-link">
+              {{ event.location }}
+            </a>
+          </h4>
         </div>
       </div>
 
-      <div class="contact-info">
-        <p>Za dodatna pitanja:</p>
-        <p>Tel: <a href="tel:+38761234567">+387 61 234 567</a></p>
-        <p>
-          Email: <a href="mailto:vjenčanje@email.com">vjenčanje@email.com</a>
-        </p>
-      </div>
-    </div>
+      <!-- RSVP Section -->
+      <div class="rsvp-section">
+        <h2>Draga obitelji</h2>
+        <h4>
+          Molimo vas da svoj dolazak potvrdite do <br />
+          01.10.2025.
+        </h4>
 
-    <div class="footer">
-      <p class="quote">
-        "Tko daje srce, daje sve."<br />
-        <span class="quote-author">- Sv. Antun</span>
-      </p>
-      <div class="hearts">♡ ♡ ♡</div>
+        <form @submit.prevent="submitRSVP" class="feedback-form">
+          <!-- Adults Section -->
+          <div class="guest-category">
+            <div class="category-header">
+              <h3>Odrasli</h3>
+              <div class="count-display">
+                <h3>{{ adults.length }}</h3>
+              </div>
+            </div>
+
+            <div
+              v-for="(adult, index) in adults"
+              :key="`adult-${index}`"
+              class="guest-input-container"
+            >
+              <div class="guest-input-row">
+                <input
+                  v-model="adult.name"
+                  type="text"
+                  placeholder="Ime i prezime"
+                  class="guest-input"
+                />
+                <button
+                  type="button"
+                  @click="removeAdult(index)"
+                  class="delete-button"
+                  v-if="adults.length > 1"
+                >
+                  ×
+                </button>
+              </div>
+            </div>
+
+            <button type="button" @click="addAdult" class="add-button">
+              <span class="plus-icon">+</span>
+              Dodaj osobu
+            </button>
+          </div>
+
+          <!-- Additional Message -->
+          <textarea
+            v-model="additionalMessage"
+            rows="4"
+            maxlength="256"
+            placeholder="Želite li podijeliti nešto s nama - možda smiješnu poruku, zanimljivo pitanje, informacije o posebnoj prehrani, druge želje ili pak srdačan pozdrav? Slušamo vas! :)"
+            class="additional-message"
+          />
+
+          <!-- Submit Button -->
+          <button type="submit" class="confirm-button" :disabled="!canSubmit">
+            <span>Potvrdi dolazak</span>
+            <span class="check-icon">✓</span>
+          </button>
+
+          <div v-if="showSuccess" class="success-message">
+            Hvala vam! Vaš dolazak je potvrđen.
+          </div>
+        </form>
+      </div>
+
+      <!-- Contact Section -->
+      <div class="contact-section">
+        <h2>Kontakt</h2>
+        <div class="contact-info">
+          <div class="contact-person">
+            <h4 class="contact-name">Matea</h4>
+            <a :href="`tel:+38761234567`" class="contact-phone">061 234 567</a>
+          </div>
+          <div class="contact-divider"></div>
+          <div class="contact-person">
+            <h4 class="contact-name">Petar</h4>
+            <a :href="`tel:+38762345678`" class="contact-phone">062 345 678</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="footer-section">
+        <h2>VESELIMO SE VAŠEM DOLASKU!</h2>
+        <div class="quote">
+          <p>"Tko daje srce, daje sve."</p>
+          <span class="quote-author">- Sv. Antun</span>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -144,53 +172,317 @@ export default {
   name: "App",
   data() {
     return {
-      guests: [{ firstName: "", lastName: "" }],
+      showLoading: true,
+      timeline: [
+        {
+          time: "13:00h",
+          title: "Skup kod mladožinje",
+          location: "Ul.Sv.Franje Asiškog 79, Metković",
+          mapUrl:
+            "https://maps.google.com/?q=Ul.+Svetog+Franje+Asiškog+79,+20350,+Metković",
+        },
+        {
+          time: "14:00h",
+          title: "Skup kod mlade",
+          location: "Hotel President Čapljina",
+          mapUrl: "https://maps.google.com/?q=Hotel+President+Čapljina",
+        },
+        {
+          time: "16:00h",
+          title: "Vjenčanje",
+          location: "Crkva Sv.Franje Asiškog, Metković",
+          mapUrl:
+            "https://maps.google.com/?q=Crkva+Sv.Franje+Asiškog,+Metković",
+        },
+        {
+          time: "19:00h",
+          title: "Večera i slavlje",
+          location: "Hotel President Čapljina",
+          mapUrl: "https://maps.google.com/?q=Hotel+President+Čapljina",
+        },
+      ],
+      adults: [{ name: "", options: [] }],
+      additionalMessage: "",
       showSuccess: false,
+      visibleEvents: [],
+      observer: null,
     };
   },
   computed: {
     canSubmit() {
-      return this.guests.some(
-        (guest) => guest.firstName.trim() !== "" && guest.lastName.trim() !== ""
-      );
-    },
-  },
-  methods: {
-    addGuest() {
-      this.guests.push({ firstName: "", lastName: "" });
-    },
-    removeGuest(index) {
-      if (this.guests.length > 1) {
-        this.guests.splice(index, 1);
-      }
-    },
-    submitRSVP() {
-      if (this.canSubmit) {
-        // Here you would typically send the data to a server
-        const validGuests = this.guests.filter(
-          (guest) =>
-            guest.firstName.trim() !== "" && guest.lastName.trim() !== ""
-        );
-
-        console.log("RSVP submitted for guests:", validGuests);
-
-        this.showSuccess = true;
-        setTimeout(() => {
-          this.showSuccess = false;
-        }, 3000);
-
-        // Reset form
-        this.guests = [{ firstName: "", lastName: "" }];
-      }
+      return this.adults.some((adult) => adult.name.trim() !== "");
     },
   },
   mounted() {
-    console.log("Wedding invitation loaded");
+    // Hide loading screen after 3.5 seconds
+    setTimeout(() => {
+      this.showLoading = false;
+      // Setup scroll observer after loading is complete
+      this.$nextTick(() => {
+        this.setupScrollObserver();
+      });
+    }, 3500);
+  },
+  beforeUnmount() {
+    if (this.observer) {
+      this.observer.disconnect();
+    }
+  },
+  methods: {
+    openMap(url) {
+      window.open(url, "_blank");
+    },
+    addAdult() {
+      this.adults.push({ name: "", options: [] });
+    },
+    removeAdult(index) {
+      if (this.adults.length > 1) {
+        this.adults.splice(index, 1);
+      }
+    },
+    toggleOption(guest, option) {
+      const index = guest.options.indexOf(option);
+      if (index > -1) {
+        guest.options.splice(index, 1);
+      } else {
+        guest.options.push(option);
+      }
+    },
+    setupScrollObserver() {
+      // Create intersection observer
+      this.observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              // Find the index of the timeline event
+              const elements = this.$refs.timelineEvents;
+              if (elements) {
+                const index = elements.indexOf(entry.target);
+                if (index !== -1 && !this.visibleEvents.includes(index)) {
+                  // Add delay based on index for staggered animation
+                  setTimeout(() => {
+                    this.visibleEvents.push(index);
+                  }, index * 200);
+                }
+              }
+            }
+          });
+        },
+        {
+          threshold: 0.3, // Trigger when 30% of element is visible
+          rootMargin: "0px 0px -50px 0px", // Trigger slightly before element is fully visible
+        }
+      );
+
+      // Observe all timeline events
+      this.$nextTick(() => {
+        const elements = this.$refs.timelineEvents;
+        if (elements) {
+          elements.forEach((el) => {
+            this.observer.observe(el);
+          });
+        }
+      });
+    },
   },
 };
 </script>
 
 <style scoped>
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Dancing+Script:wght@400;500;600;700&display=swap");
+
+/* Add viewport meta equivalent styles */
+html {
+  /* Ensure full viewport coverage */
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  /* Remove default margins that might interfere with notch areas */
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: #dbdcde;
+}
+
+/* Loading Screen Styles */
+.loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: #9e8039;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: fadeOut 1s ease-out 3s both;
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
+.loading-content {
+  text-align: center;
+  color: #dbdcde;
+}
+
+.monogram {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.letter {
+  font-family: "Cormorant Garamond", serif;
+  font-weight: 400;
+  color: #dbdcde;
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.letter-m {
+  font-size: 6rem;
+  animation: letterSlideIn 1s ease-out 0.5s both;
+}
+
+.letter-and {
+  font-size: 4rem;
+  font-weight: 700;
+  animation: letterSlideIn 1s ease-out 1s both;
+}
+
+.letter-p {
+  font-size: 6rem;
+  animation: letterSlideIn 1s ease-out 1.5s both;
+}
+
+.loading-date {
+  font-size: 1.8rem;
+  font-weight: 500;
+  letter-spacing: 3px;
+  opacity: 0;
+  animation: dateSlideIn 1s ease-out 2s both;
+}
+
+/* Loading Animations */
+@keyframes letterSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes dateSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    visibility: visible;
+  }
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+/* Main Content Styles */
+.main-content {
+  opacity: 0;
+  animation: fadeIn 1s ease-out 1s both;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.letter-p {
+  font-size: 6rem;
+  animation: letterSlideIn 1s ease-out 1.5s both;
+}
+
+.loading-date {
+  font-size: 1.8rem;
+  font-weight: 500;
+  letter-spacing: 3px;
+  opacity: 0;
+  animation: dateSlideIn 1s ease-out 2s both;
+}
+
+/* Loading Animations */
+@keyframes letterSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes dateSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    visibility: visible;
+  }
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+/* Main Content Styles */
+.main-content {
+  opacity: 0;
+  animation: fadeIn 1s ease-out 3.5s both;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -198,397 +490,623 @@ export default {
 }
 
 .wedding-invitation {
-  font-family: "Georgia", "Times New Roman", serif;
+  font-family: "Cormorant Garamond", serif;
+  background: #dbdcde;
+  color: #333;
   line-height: 1.6;
-  color: #8b7355;
-  background: linear-gradient(135deg, #f5f0e8 0%, #ede7d9 100%);
+  width: 100%;
   min-height: 100vh;
 }
 
+/* Fullscreen viewport for mobile with notch support */
 .hero-section {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 60px 20px;
   text-align: center;
-  background: #faf7f2;
-  border-bottom: 1px solid #e8dcc0;
-}
-
-.couple-photo {
-  width: 280px;
-  height: 280px;
-  border-radius: 50%;
-  overflow: hidden;
-  margin-bottom: 40px;
-  border: 3px solid #d4c4a8;
-  box-shadow: 0 8px 32px rgba(139, 115, 85, 0.15);
-}
-
-.couple-photo img {
+  background: #dbdcde;
+  min-height: 100vh;
+  min-height: 100dvh; /* Dynamic viewport height for mobile */
+  justify-content: center;
   width: 100%;
-  height: 100%;
+  /* Extend into safe areas */
+  padding-top: max(60px, env(safe-area-inset-top) + 20px);
+  padding-bottom: max(60px, env(safe-area-inset-bottom) + 20px);
+  padding-left: max(20px, env(safe-area-inset-left) + 20px);
+  padding-right: max(20px, env(safe-area-inset-right) + 20px);
+}
+
+.frame-image {
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
   object-fit: cover;
-  filter: sepia(20%) contrast(90%) brightness(105%);
+  margin-bottom: 30px;
+  border: 4px solid #9e8039;
+  filter: sepia(20%) contrast(95%);
 }
 
 .hero-content {
-  max-width: 500px;
+  max-width: 100%;
+  width: 100%;
+  padding: 0 15px;
+}
+
+.intro-text p {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 30px;
+  font-style: italic;
+  line-height: 1.6;
 }
 
 .couple-names {
-  font-size: 3.5rem;
-  font-weight: 300;
-  color: #a68b5b;
-  margin-bottom: 20px;
-  letter-spacing: 2px;
-  text-shadow: 0 2px 4px rgba(166, 139, 91, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.couple-names .name {
+  font-size: 2.8rem;
+  font-weight: 400;
+  color: #9e8039;
+  margin: 0;
+}
+
+.couple-names .and {
+  font-size: 2.2rem;
+  color: #9e8039;
+  font-weight: 700;
+  margin: 0 8px;
 }
 
 .wedding-date {
-  font-size: 1.8rem;
-  color: #8b7355;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
   margin-bottom: 30px;
-  font-weight: 400;
-  letter-spacing: 3px;
+  color: #9e8039;
+  flex-wrap: wrap;
 }
 
-.invitation-text {
-  font-size: 1.2rem;
-  color: #9a8266;
+.month,
+.year {
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.day h1 {
+  font-size: 3rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.invitation-text p {
+  font-size: 1.1rem;
+  color: #666;
   font-style: italic;
-  line-height: 1.8;
 }
 
 .timeline-section {
-  padding: 80px 20px;
-  max-width: 800px;
-  margin: 0 auto;
+  padding: 60px 15px;
+  background: #dbdcde;
+  width: 100%;
+}
+
+.timeline-event {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
+  margin-bottom: 50px;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  padding: 0 10px;
 }
 
-.timeline-section h2 {
-  font-size: 2.5rem;
-  color: #a68b5b;
-  margin-bottom: 60px;
-  font-weight: 300;
-  letter-spacing: 1px;
-  position: relative;
+.timeline-event.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-.timeline-section h2::after {
-  content: "";
-  position: absolute;
-  bottom: -15px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60px;
-  height: 1px;
-  background: #d4c4a8;
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.event-details {
-  display: grid;
-  gap: 40px;
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-.event {
-  padding: 30px;
-  background: rgba(250, 247, 242, 0.6);
-  border-radius: 12px;
-  border: 1px solid #e8dcc0;
-  transition: all 0.3s ease;
-}
-
-.event:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(139, 115, 85, 0.12);
-  background: rgba(250, 247, 242, 0.9);
-}
-
-.event h3 {
-  font-size: 1.3rem;
-  color: #8b7355;
-  margin-bottom: 12px;
-  font-weight: 500;
-  letter-spacing: 1px;
-}
-
-.time {
-  font-size: 1.5rem;
-  color: #a68b5b;
+.event-time {
+  font-size: 1.8rem;
+  color: #9e8039;
   font-weight: 600;
-  margin-bottom: 15px;
-  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+
+.event-title {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 12px;
+  font-family: "Dancing Script", cursive;
+  font-weight: 500;
+}
+
+.handwriting {
+  font-family: "Dancing Script", cursive;
+}
+
+.event-location {
+  font-size: 1rem;
+  color: #666;
+  margin: 0;
+  text-align: center;
 }
 
 .location-link {
-  color: #9a8266;
+  color: #666;
   text-decoration: none;
-  font-size: 1.1rem;
+  transition: color 0.3s ease;
+  cursor: pointer;
   border-bottom: 1px solid transparent;
-  transition: all 0.3s ease;
-  padding: 5px 0;
+  padding-bottom: 2px;
 }
 
 .location-link:hover {
-  color: #a68b5b;
-  border-bottom-color: #d4c4a8;
+  color: #9e8039;
+  border-bottom-color: #9e8039;
 }
 
 .rsvp-section {
-  padding: 80px 20px;
+  padding: 60px 15px;
   text-align: center;
-  background: #faf7f2;
-  border-top: 1px solid #e8dcc0;
+  background: #e8e9eb;
+  width: 100%;
+}
+
+.rsvp-section,
+.contact-section,
+.footer-section {
+  text-align: center;
 }
 
 .rsvp-section h2 {
   font-size: 2.2rem;
-  color: #a68b5b;
-  margin-bottom: 30px;
-  font-weight: 300;
-}
-
-.rsvp-section p {
-  font-size: 1.2rem;
-  color: #8b7355;
-  margin-bottom: 40px;
-}
-
-.contact-info {
-  margin-top: 40px;
-}
-
-.contact-info p:first-child {
-  font-weight: 500;
-  color: #8b7355;
+  color: #9e8039;
   margin-bottom: 15px;
 }
 
-.contact-info {
+.rsvp-section h4 {
+  font-size: 1.1rem;
+  color: #666;
+  margin-bottom: 40px;
+  line-height: 1.5;
+}
+
+.feedback-form {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0 5px;
+}
+
+.guest-category {
+  margin-bottom: 30px;
+}
+
+.category-header {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 0 5px;
+}
+
+.category-header h3 {
+  font-size: 1.2rem;
+  color: #333;
+  font-weight: 500;
+}
+
+.count-display h3 {
+  color: #9e8039;
+  font-weight: 600;
+}
+
+.guest-input-container {
+  margin-bottom: 15px;
+}
+
+.guest-input-row {
+  display: flex;
   align-items: center;
   gap: 8px;
-}
-
-.guest-form {
-  max-width: 500px;
-  margin: 0 auto 40px;
-  padding: 40px 30px;
-  background: rgba(250, 247, 242, 0.8);
-  border-radius: 15px;
-  border: 1px solid #e8dcc0;
-}
-
-.guest-list {
-  margin-bottom: 25px;
-}
-
-.guest-input-group {
-  margin-bottom: 15px;
-}
-
-.input-row {
-  display: flex;
-  gap: 10px;
-  align-items: center;
+  margin-bottom: 10px;
+  width: 100%;
 }
 
 .guest-input {
   flex: 1;
-  padding: 12px 15px;
-  border: 1px solid #d4c4a8;
+  padding: 14px 50px 14px 15px; /* Extra right padding for delete button */
+  border: 1px solid #ccc;
   border-radius: 8px;
-  background: #faf7f2;
-  color: #8b7355;
-  font-size: 1rem;
+  font-size: 16px; /* Prevents zoom on iOS */
   font-family: inherit;
-  transition: all 0.3s ease;
+  background: white;
+  width: 100%;
 }
 
 .guest-input:focus {
   outline: none;
-  border-color: #a68b5b;
-  box-shadow: 0 0 0 2px rgba(166, 139, 91, 0.1);
+  border-color: #9e8039;
 }
 
-.guest-input::placeholder {
-  color: #b8a082;
-}
-
-.remove-guest-btn {
-  width: 35px;
-  height: 35px;
+.delete-button {
+  padding: 10px 12px;
+  background: #ddd;
   border: none;
-  background: #d4c4a8;
-  color: #8b7355;
   border-radius: 50%;
   cursor: pointer;
-  font-size: 1.2rem;
-  font-weight: bold;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s ease;
+  transition: background-color 0.3s ease;
+  font-size: 18px;
+  color: #666;
+  min-width: 40px;
+  height: 40px;
   flex-shrink: 0;
 }
 
-.remove-guest-btn:hover {
-  background: #c0b296;
-  transform: scale(1.1);
+.delete-button:hover {
+  background: #ccc;
 }
 
-.add-guest-btn {
+.plus-icon {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.add-button {
   width: 100%;
-  padding: 12px 20px;
+  padding: 15px;
   background: transparent;
-  border: 2px dashed #d4c4a8;
-  color: #a68b5b;
+  border: 2px dashed #ccc;
   border-radius: 8px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   font-size: 1rem;
-  font-family: inherit;
+  color: #666;
   transition: all 0.3s ease;
-  margin-bottom: 20px;
+  margin-top: 10px;
 }
 
-.add-guest-btn:hover {
-  border-color: #a68b5b;
-  background: rgba(166, 139, 91, 0.05);
+.add-button:hover {
+  border-color: #9e8039;
+  color: #9e8039;
 }
 
-.submit-rsvp-btn {
+.additional-message {
   width: 100%;
-  padding: 15px 30px;
-  background: linear-gradient(135deg, #a68b5b, #8b7355);
-  color: #faf7f2;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 16px; /* Prevents zoom on iOS */
+  resize: vertical;
+  margin-bottom: 25px;
+  min-height: 100px;
+}
+
+.additional-message:focus {
+  outline: none;
+  border-color: #9e8039;
+}
+
+.confirm-button {
+  width: 100%;
+  padding: 18px 30px;
+  background: #9e8039;
+  color: white;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   font-size: 1.1rem;
   font-family: inherit;
   font-weight: 500;
-  letter-spacing: 1px;
-  transition: all 0.3s ease;
   text-transform: uppercase;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+  touch-action: manipulation; /* Better touch responsiveness */
 }
 
-.submit-rsvp-btn:hover:not(:disabled) {
+.confirm-button:hover:not(:disabled) {
+  background: #8a7133;
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(139, 115, 85, 0.3);
 }
 
-.submit-rsvp-btn:disabled {
+.confirm-button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
-  transform: none;
+}
+
+.check-icon {
+  font-size: 18px;
+  font-weight: bold;
 }
 
 .success-message {
   margin-top: 20px;
   padding: 15px;
-  background: rgba(139, 115, 85, 0.1);
-  color: #8b7355;
+  background: rgba(158, 128, 57, 0.1);
+  color: #9e8039;
   border-radius: 8px;
-  text-align: center;
   font-weight: 500;
-  border: 1px solid #d4c4a8;
 }
 
-.quote-author {
-  font-size: 0.9em;
-  color: #b8a082;
-  font-style: normal;
+.contact-section {
+  padding: 60px 15px;
+  text-align: center;
+  background: #dbdcde;
+  width: 100%;
 }
 
-.contact-info a {
-  color: #a68b5b;
+.contact-section h2 {
+  font-size: 2.2rem;
+  color: #9e8039;
+  margin-bottom: 30px;
+}
+
+.contact-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  max-width: 100%;
+  margin: 0 auto;
+  flex-wrap: wrap;
+}
+
+.contact-person {
+  text-align: center;
+}
+
+.contact-name {
+  font-size: 1.2rem;
+  color: #333;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.contact-phone {
+  color: #9e8039;
   text-decoration: none;
+  font-size: 1.1rem;
   font-weight: 500;
   transition: color 0.3s ease;
 }
 
-.contact-info a:hover {
-  color: #8b7355;
+.contact-phone:hover {
+  color: #8a7133;
 }
 
-.footer {
-  padding: 60px 20px 40px;
+.contact-divider {
+  width: 1px;
+  height: 50px;
+  background: #ccc;
+}
+
+.footer-section {
+  padding: 60px 15px 40px;
   text-align: center;
-  background: linear-gradient(135deg, #f5f0e8 0%, #ede7d9 100%);
+  background: #e8e9eb;
+  width: 100%;
+}
+
+.footer-section h2 {
+  font-size: 1.8rem;
+  color: #9e8039;
+  margin-bottom: 30px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  line-height: 1.3;
 }
 
 .quote {
-  font-size: 1.3rem;
-  color: #9a8266;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0 10px;
+}
+
+.quote p {
+  font-size: 1.2rem;
+  color: #666;
   font-style: italic;
-  margin-bottom: 30px;
-  line-height: 1.8;
+  margin-bottom: 12px;
+  line-height: 1.5;
 }
 
-.hearts {
-  font-size: 2rem;
-  color: #d4c4a8;
-  letter-spacing: 15px;
+.quote-author {
+  font-size: 0.95rem;
+  color: #999;
+  font-style: normal;
+  font-weight: 500;
 }
 
-@media (max-width: 768px) {
-  .couple-names {
-    font-size: 2.5rem;
-  }
-
-  .wedding-date {
-    font-size: 1.4rem;
-  }
-
-  .couple-photo {
-    width: 220px;
-    height: 220px;
-  }
-
-  .timeline-section h2 {
-    font-size: 2rem;
-  }
-
-  .event {
-    padding: 25px 20px;
-  }
-
-  .guest-form {
-    padding: 30px 20px;
-    margin: 0 auto 30px;
-  }
-
-  .input-row {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .remove-guest-btn {
-    align-self: center;
-    margin-top: 5px;
-  }
-}
-
+/* Mobile optimizations */
 @media (max-width: 480px) {
-  .couple-names {
-    font-size: 2rem;
+  .wedding-invitation {
+    padding-top: max(env(safe-area-inset-top), 20px);
   }
 
   .hero-section {
-    padding: 40px 15px;
+    padding: 40px 10px;
+    min-height: calc(100vh - 40px);
+  }
+
+  .frame-image {
+    width: 250px;
+    height: 250px;
+    margin-bottom: 25px;
+  }
+
+  .couple-names .name {
+    font-size: 2.2rem;
+  }
+
+  .couple-names .and {
+    font-size: 1.8rem;
+  }
+
+  .day h1 {
+    font-size: 2.5rem;
+  }
+
+  .event-title {
+    font-size: 1.6rem;
+  }
+
+  .event-time {
+    font-size: 1.5rem;
   }
 
   .timeline-section {
-    padding: 60px 15px;
+    padding: 40px 10px;
   }
 
   .rsvp-section {
-    padding: 60px 15px;
+    padding: 40px 10px;
+  }
+
+  .contact-section {
+    padding: 40px 10px;
+  }
+
+  .footer-section {
+    padding: 40px 10px 30px;
+  }
+
+  .contact-info {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .contact-divider {
+    width: 50px;
+    height: 1px;
+  }
+
+  .guest-input-row {
+    display: flex;
+    gap: 10px;
+  }
+
+  .delete-button {
+    align-self: center;
+  }
+
+  .guest-options {
+    justify-content: center;
+  }
+
+  .option-badge {
+    font-size: 0.8rem;
+    padding: 8px 12px;
+  }
+}
+
+/* Extra small screens */
+@media (max-width: 320px) {
+  .hero-content {
+    padding: 0 10px;
+  }
+
+  .couple-names .name {
+    font-size: 2rem;
+  }
+
+  .couple-names .and {
+    font-size: 1.6rem;
+  }
+
+  .day h1 {
+    font-size: 2.2rem;
+  }
+
+  .footer-section h2 {
+    font-size: 1.5rem;
+  }
+}
+
+/* Mobile Loading Optimizations */
+@media (max-width: 480px) {
+  .letter-m,
+  .letter-p {
+    font-size: 4.5rem;
+  }
+
+  .letter-and {
+    font-size: 3rem;
+  }
+
+  .loading-date {
+    font-size: 1.4rem;
+    letter-spacing: 2px;
+  }
+
+  .monogram {
+    gap: 10px;
+    margin-bottom: 25px;
+  }
+}
+
+@media (max-width: 320px) {
+  .letter-m,
+  .letter-p {
+    font-size: 4rem;
+  }
+
+  .letter-and {
+    font-size: 2.5rem;
+  }
+
+  .loading-date {
+    font-size: 1.2rem;
+  }
+}
+
+/* Landscape orientation for loading */
+@media (max-height: 500px) and (orientation: landscape) {
+  .letter-m,
+  .letter-p {
+    font-size: 3.5rem;
+  }
+
+  .letter-and {
+    font-size: 2.5rem;
+  }
+
+  .loading-date {
+    font-size: 1.3rem;
+  }
+
+  .monogram {
+    margin-bottom: 15px;
   }
 }
 </style>
