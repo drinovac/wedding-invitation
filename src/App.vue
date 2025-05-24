@@ -1,879 +1,594 @@
 <template>
-  <div id="app">
-    <!-- Main Invitation Card -->
-    <div class="card-container">
-      <div class="card" :class="{ flipped: isFlipped }">
-        <!-- Front Side - Invitation -->
-        <div class="card-face card-front">
-          <div class="bg-image"></div>
-          <div class="content-overlay">
-            <!-- Date Circle -->
-            <div class="date-circle">
-              <div class="date-text">
-                <div class="day">09</div>
-                <div class="month">11</div>
-                <div class="year">25</div>
-              </div>
-            </div>
-
-            <!-- Side Text -->
-            <div class="side-text">
-              Tko daje srce daje sve.<br />
-              Sv. Antun
-            </div>
-
-            <!-- Main Content -->
-            <div class="main-content">
-              <div class="invitation-text">POZIVAMO</div>
-              <div class="invitation-text">VAS NA NAŠE</div>
-              <div class="invitation-text">VJENČANJE</div>
-
-              <div class="names">
-                <span class="bride">Matea</span>
-                <span class="ampersand">&</span>
-                <span class="groom">Petar</span>
-              </div>
-
-              <div class="tagline">BUDITE SVJEDOCI NAŠE LJUBAVI</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Back Side - Details -->
-        <div class="card-face card-back">
-          <div class="details-content">
-            <div class="details-header">
-              <h1>M&P</h1>
-            </div>
-
-            <div class="event-details">
-              <div class="event">
-                <h3>SKUP KOD MLADOŽINJE</h3>
-                <div class="time">13:00H</div>
-                <a
-                  href="https://maps.google.com/?q=Ul.Sv.Franje+Asiškog+79,+Čapljina"
-                  target="_blank"
-                  class="location-link"
-                >
-                  Ul.Sv.Franje Asiškog 79
-                </a>
-              </div>
-
-              <div class="event">
-                <h3>SKUP KOD MLADЕ</h3>
-                <div class="time">14:00H</div>
-                <a
-                  href="https://maps.google.com/?q=Hotel+President+Čapljina"
-                  target="_blank"
-                  class="location-link"
-                >
-                  Hotel President Čapljina
-                </a>
-              </div>
-
-              <div class="event">
-                <h3>VJENČANJE</h3>
-                <div class="time">16:00H</div>
-                <a
-                  href="https://maps.google.com/?q=Crkva+Sv.Franje+Asiškog,+Čapljina"
-                  target="_blank"
-                  class="location-link"
-                >
-                  Crkva Sv.Franje Asiškog
-                </a>
-              </div>
-
-              <div class="event">
-                <h3>VEČERA I SLAVLJE</h3>
-                <div class="time">19:00H</div>
-                <a
-                  href="https://maps.google.com/?q=Hotel+President+Čapljina"
-                  target="_blank"
-                  class="location-link"
-                >
-                  Hotel President Čapljina
-                </a>
-              </div>
-            </div>
-
-            <div class="rsvp-section">
-              <h2>VESELIMO SE VAŠEM DOLASKU!</h2>
-              <p>MOLIMO DA SVOJ DOLAZAK POTVRDITE DO 01.10.2025.</p>
-
-              <div class="contact-info">
-                <div class="contact">
-                  <strong>Matea:</strong>
-                  <a
-                    href="https://wa.me/385958884819"
-                    target="_blank"
-                    class="whatsapp-link"
-                  >
-                    095 888-4819
-                  </a>
-                </div>
-                <div class="contact">
-                  <strong>Petar:</strong>
-                  <a
-                    href="https://wa.me/385955297544"
-                    target="_blank"
-                    class="whatsapp-link"
-                  >
-                    095 529 75 44
-                  </a>
-                </div>
-              </div>
-
-              <!-- RSVP Form Toggle Button -->
-              <a href="#rsvp-form" class="rsvp-toggle-btn">
-                Potvrdi dolazak online
-              </a>
-            </div>
-          </div>
-        </div>
+  <div class="wedding-invitation">
+    <div class="hero-section">
+      <div class="couple-photo">
+        <!-- Replace './assets/image.jpeg' with your actual image file -->
+        <img src="./assets/image.jpeg" alt="Matea i Petar" />
       </div>
 
-      <!-- Flip Button -->
-      <div class="flip-button-container">
-        <button class="flip-btn" @click="flipCard">
-          <span class="flip-icon">↻</span>
-          {{ isFlipped ? "Pozivnica" : "Detalji" }}
-        </button>
+      <div class="hero-content">
+        <h1 class="couple-names">Matea & Petar</h1>
+        <div class="wedding-date">09.11.2025</div>
+        <p class="invitation-text">
+          Pozivamo vas da podijelite s nama<br />
+          najsretniji dan našeg života
+        </p>
       </div>
     </div>
 
-    <!-- RSVP Form Section -->
-    <div id="rsvp-form" class="rsvp-form-section">
-      <div class="rsvp-form-card">
-        <div class="form-header">
-          <h2>Potvrda dolaska</h2>
+    <div class="timeline-section">
+      <h2>Program Dana</h2>
+
+      <div class="event-details">
+        <div class="event">
+          <h3>SKUP KOD MLADOŽINJE</h3>
+          <div class="time">13:00H</div>
+          <a
+            href="https://maps.google.com/?q=Ul.Sv.Franje+Asiškog+79,+Čapljina"
+            target="_blank"
+            class="location-link"
+          >
+            Ul.Sv.Franje Asiškog 79
+          </a>
         </div>
 
-        <form @submit.prevent="submitRSVP" class="rsvp-form">
-          <div class="form-group">
-            <label for="guestName">Ime i prezime:</label>
-            <input
-              type="text"
-              id="guestName"
-              v-model="form.guestName"
-              required
-              :disabled="isSubmitting"
-            />
-          </div>
+        <div class="event">
+          <h3>SKUP KOD MLADЕ</h3>
+          <div class="time">14:00H</div>
+          <a
+            href="https://maps.google.com/?q=Hotel+President+Čapljina"
+            target="_blank"
+            class="location-link"
+          >
+            Hotel President Čapljina
+          </a>
+        </div>
 
-          <div class="form-group">
-            <label for="guestCount">Broj gostiju:</label>
-            <select
-              id="guestCount"
-              v-model="form.guestCount"
-              required
-              :disabled="isSubmitting"
-            >
-              <option value="">Odaberite broj gostiju</option>
-              <option value="1">1 osoba</option>
-              <option value="2">2 osobe</option>
-              <option value="3">3 osobe</option>
-              <option value="4">4 osobe</option>
-              <option value="5">5 osoba</option>
-              <option value="6">6 osoba</option>
-            </select>
-          </div>
+        <div class="event">
+          <h3>VJENČANJE</h3>
+          <div class="time">16:00H</div>
+          <a
+            href="https://maps.google.com/?q=Crkva+Sv.Franje+Asiškog,+Čapljina"
+            target="_blank"
+            class="location-link"
+          >
+            Crkva Sv.Franje Asiškog
+          </a>
+        </div>
 
-          <div class="form-group" v-if="parseInt(form.guestCount) > 1">
-            <label for="additionalNames">Imena dodatnih gostiju:</label>
-            <textarea
-              id="additionalNames"
-              v-model="form.additionalNames"
-              rows="3"
-              placeholder="Unesite imena ostalih gostiju..."
-              :disabled="isSubmitting"
-            ></textarea>
-          </div>
-
-          <div class="form-group">
-            <label for="email">Email (opcionalno):</label>
-            <input
-              type="email"
-              id="email"
-              v-model="form.email"
-              :disabled="isSubmitting"
-            />
-          </div>
-
-          <div class="form-group">
-            <label for="phone">Telefon:</label>
-            <input
-              type="tel"
-              id="phone"
-              v-model="form.phone"
-              required
-              :disabled="isSubmitting"
-            />
-          </div>
-
-          <div class="form-group">
-            <label for="message">Poruka (opcionalno):</label>
-            <textarea
-              id="message"
-              v-model="form.message"
-              rows="3"
-              placeholder="Ostavite nam poruku..."
-              :disabled="isSubmitting"
-            ></textarea>
-          </div>
-
-          <button type="submit" class="submit-btn" :disabled="isSubmitting">
-            {{ isSubmitting ? "Šalje se..." : "Potvrdi dolazak" }}
-          </button>
-
-          <div v-if="successMessage" class="success-message">
-            {{ successMessage }}
-          </div>
-
-          <div v-if="errorMessage" class="error-message">
-            {{ errorMessage }}
-          </div>
-        </form>
+        <div class="event">
+          <h3>VEČERA I SLAVLJE</h3>
+          <div class="time">19:00H</div>
+          <a
+            href="https://maps.google.com/?q=Hotel+President+Čapljina"
+            target="_blank"
+            class="location-link"
+          >
+            Hotel President Čapljina
+          </a>
+        </div>
       </div>
+    </div>
+
+    <div class="rsvp-section">
+      <h2>Potvrdite Dolazak</h2>
+      <p>Molimo vas da potvrdite svoj dolazak do 01.10.2025</p>
+
+      <div class="guest-form">
+        <div class="guest-list">
+          <div
+            v-for="(guest, index) in guests"
+            :key="index"
+            class="guest-input-group"
+          >
+            <div class="input-row">
+              <input
+                v-model="guest.firstName"
+                type="text"
+                placeholder="Ime"
+                class="guest-input"
+              />
+              <input
+                v-model="guest.lastName"
+                type="text"
+                placeholder="Prezime"
+                class="guest-input"
+              />
+              <button
+                @click="removeGuest(index)"
+                class="remove-guest-btn"
+                v-if="guests.length > 1"
+              >
+                ×
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <button @click="addGuest" class="add-guest-btn">+ Dodaj Gosta</button>
+
+        <button
+          @click="submitRSVP"
+          class="submit-rsvp-btn"
+          :disabled="!canSubmit"
+        >
+          Potvrdi Dolazak
+        </button>
+
+        <div v-if="showSuccess" class="success-message">
+          Hvala vam! Vaš dolazak je potvrđen.
+        </div>
+      </div>
+
+      <div class="contact-info">
+        <p>Za dodatna pitanja:</p>
+        <p>Tel: <a href="tel:+38761234567">+387 61 234 567</a></p>
+        <p>
+          Email: <a href="mailto:vjenčanje@email.com">vjenčanje@email.com</a>
+        </p>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p class="quote">
+        "Tko daje srce, daje sve."<br />
+        <span class="quote-author">- Sv. Antun</span>
+      </p>
+      <div class="hearts">♡ ♡ ♡</div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "WeddingInvitation",
+  name: "App",
   data() {
     return {
-      isFlipped: false,
-      form: {
-        guestName: "",
-        guestCount: "",
-        additionalNames: "",
-        email: "",
-        phone: "",
-        message: "",
-      },
-      isSubmitting: false,
-      successMessage: "",
-      errorMessage: "",
+      guests: [{ firstName: "", lastName: "" }],
+      showSuccess: false,
     };
   },
-  methods: {
-    flipCard() {
-      this.isFlipped = !this.isFlipped;
+  computed: {
+    canSubmit() {
+      return this.guests.some(
+        (guest) => guest.firstName.trim() !== "" && guest.lastName.trim() !== ""
+      );
     },
-
-    async submitRSVP() {
-      this.isSubmitting = true;
-      this.successMessage = "";
-      this.errorMessage = "";
-
-      try {
-        // Simulate form submission - replace with actual email service
-        // For EmailJS integration, uncomment and configure:
-        /*
-        const templateParams = {
-          guest_name: this.form.guestName,
-          guest_count: this.form.guestCount,
-          additional_names: this.form.additionalNames || 'N/A',
-          guest_email: this.form.email || 'Nije naveden',
-          guest_phone: this.form.phone,
-          message: this.form.message || 'Nema dodatne poruke',
-          to_email: 'your-email@example.com'
-        };
-
-        // Initialize EmailJS
-        emailjs.init("YOUR_PUBLIC_KEY");
-
-        await emailjs.send(
-          'YOUR_SERVICE_ID',
-          'YOUR_TEMPLATE_ID',
-          templateParams
-        );
-        */
-
-        // Simulate delay for demo
-        await new Promise((resolve) => setTimeout(resolve, 2000));
-
-        this.successMessage =
-          "Hvala vam! Vaša potvrda dolaska je uspješno poslana.";
-        this.resetForm();
-      } catch (error) {
-        console.error("Error sending RSVP:", error);
-        this.errorMessage =
-          "Došlo je do greške pri slanju. Molimo kontaktirajte nas direktno.";
-      } finally {
-        this.isSubmitting = false;
+  },
+  methods: {
+    addGuest() {
+      this.guests.push({ firstName: "", lastName: "" });
+    },
+    removeGuest(index) {
+      if (this.guests.length > 1) {
+        this.guests.splice(index, 1);
       }
     },
+    submitRSVP() {
+      if (this.canSubmit) {
+        // Here you would typically send the data to a server
+        const validGuests = this.guests.filter(
+          (guest) =>
+            guest.firstName.trim() !== "" && guest.lastName.trim() !== ""
+        );
 
-    resetForm() {
-      this.form = {
-        guestName: "",
-        guestCount: "",
-        additionalNames: "",
-        email: "",
-        phone: "",
-        message: "",
-      };
+        console.log("RSVP submitted for guests:", validGuests);
+
+        this.showSuccess = true;
+        setTimeout(() => {
+          this.showSuccess = false;
+        }, 3000);
+
+        // Reset form
+        this.guests = [{ firstName: "", lastName: "" }];
+      }
     },
+  },
+  mounted() {
+    console.log("Wedding invitation loaded");
   },
 };
 </script>
 
-<style>
+<style scoped>
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
-#app {
+.wedding-invitation {
   font-family: "Georgia", "Times New Roman", serif;
-  background: linear-gradient(135deg, #f5f3f0 0%, #e8e2db 100%);
+  line-height: 1.6;
+  color: #8b7355;
+  background: linear-gradient(135deg, #f5f0e8 0%, #ede7d9 100%);
   min-height: 100vh;
-  color: #5a4a3a;
+}
+
+.hero-section {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
+  padding: 60px 20px;
+  text-align: center;
+  background: #faf7f2;
+  border-bottom: 1px solid #e8dcc0;
 }
 
-/* Card Container */
-.card-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 30px;
-  margin-bottom: 50px;
+.couple-photo {
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-bottom: 40px;
+  border: 3px solid #d4c4a8;
+  box-shadow: 0 8px 32px rgba(139, 115, 85, 0.15);
 }
 
-/* 3D Card Styles */
-.card {
-  width: 400px;
-  height: 600px;
-  position: relative;
-  perspective: 1000px;
-  transform-style: preserve-3d;
-  transition: transform 0.8s ease-in-out;
-}
-
-.card.flipped {
-  transform: rotateY(180deg);
-}
-
-.card-face {
-  position: absolute;
+.couple-photo img {
   width: 100%;
   height: 100%;
-  backface-visibility: hidden;
-  border: 2px solid #8b7355;
-  border-radius: 200px 200px 50px 50px;
-  overflow: hidden;
-  box-shadow: 0 15px 35px rgba(90, 74, 58, 0.2);
-  background: #faf8f5;
+  object-fit: cover;
+  filter: sepia(20%) contrast(90%) brightness(105%);
 }
 
-.card-back {
-  transform: rotateY(180deg);
+.hero-content {
+  max-width: 500px;
 }
 
-/* Front Side - Invitation Styles */
-.bg-image {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(45deg, #f0f0f0, #e8e8e8);
-  opacity: 0.3;
+.couple-names {
+  font-size: 3.5rem;
+  font-weight: 300;
+  color: #a68b5b;
+  margin-bottom: 20px;
+  letter-spacing: 2px;
+  text-shadow: 0 2px 4px rgba(166, 139, 91, 0.1);
 }
 
-.bg-image::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: url("assets/image.jpeg");
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  opacity: 0.8;
-}
-
-.content-overlay {
-  position: relative;
-  height: 100%;
-  padding: 40px 30px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  color: #6b5b47;
-}
-
-.date-circle {
-  position: absolute;
-  top: 80px;
-  right: 30px;
-  width: 80px;
-  height: 80px;
-  border: 2px solid #8b7355;
-  border-radius: 50% 50% 50% 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(255, 255, 255, 0.9);
-}
-
-.date-text {
-  text-align: center;
-  font-weight: bold;
-}
-
-.day {
-  font-size: 28px;
-  line-height: 0.9;
-}
-
-.month {
-  font-size: 16px;
-  line-height: 0.9;
-}
-
-.year {
-  font-size: 16px;
-  line-height: 0.9;
-}
-
-.side-text {
-  position: absolute;
-  left: -50px;
-  top: 50%;
-  transform: translateY(-50%) rotate(-90deg);
-  font-size: 12px;
-  letter-spacing: 1px;
-  white-space: nowrap;
+.wedding-date {
+  font-size: 1.8rem;
   color: #8b7355;
-}
-
-.main-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  margin-top: 60px;
+  margin-bottom: 30px;
+  font-weight: 400;
+  letter-spacing: 3px;
 }
 
 .invitation-text {
-  font-size: 16px;
-  letter-spacing: 3px;
-  margin: 2px 0;
-  font-weight: 300;
-}
-
-.names {
-  margin: 30px 0;
-  font-size: 36px;
-  font-weight: 300;
-}
-
-.bride,
-.groom {
-  display: block;
-  margin: 5px 0;
-}
-
-.ampersand {
-  font-size: 42px;
-  margin: 0 10px;
+  font-size: 1.2rem;
+  color: #9a8266;
   font-style: italic;
+  line-height: 1.8;
 }
 
-.tagline {
-  font-size: 12px;
-  letter-spacing: 2px;
-  margin-top: 30px;
-  font-weight: 300;
-}
-
-/* Back Side - Details Styles */
-.details-content {
-  height: 100%;
-  padding: 40px 30px;
-  display: flex;
-  flex-direction: column;
-  color: #6b5b47;
-}
-
-.details-header h1 {
+.timeline-section {
+  padding: 80px 20px;
+  max-width: 800px;
+  margin: 0 auto;
   text-align: center;
-  font-size: 48px;
+}
+
+.timeline-section h2 {
+  font-size: 2.5rem;
+  color: #a68b5b;
+  margin-bottom: 60px;
   font-weight: 300;
-  margin-bottom: 30px;
-  color: #8b7355;
+  letter-spacing: 1px;
+  position: relative;
+}
+
+.timeline-section h2::after {
+  content: "";
+  position: absolute;
+  bottom: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 1px;
+  background: #d4c4a8;
 }
 
 .event-details {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  margin-bottom: 20px;
+  display: grid;
+  gap: 40px;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
 .event {
-  text-align: center;
+  padding: 30px;
+  background: rgba(250, 247, 242, 0.6);
+  border-radius: 12px;
+  border: 1px solid #e8dcc0;
+  transition: all 0.3s ease;
+}
+
+.event:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(139, 115, 85, 0.12);
+  background: rgba(250, 247, 242, 0.9);
 }
 
 .event h3 {
-  font-size: 13px;
-  letter-spacing: 2px;
-  margin-bottom: 5px;
-  font-weight: 400;
+  font-size: 1.3rem;
   color: #8b7355;
-}
-
-.time {
-  font-size: 16px;
-  font-weight: bold;
-  margin-bottom: 5px;
-}
-
-.location-link {
-  font-size: 11px;
-  font-style: italic;
-  color: #8b7355;
-  text-decoration: none;
-  border-bottom: 1px dotted #8b7355;
-  transition: color 0.3s ease;
-}
-
-.location-link:hover {
-  color: #6b5b47;
-  text-decoration: none;
-}
-
-.rsvp-section {
-  text-align: center;
-  padding-top: 10px;
-}
-
-.rsvp-section h2 {
-  font-size: 16px;
-  margin-bottom: 8px;
-  color: #8b7355;
+  margin-bottom: 12px;
+  font-weight: 500;
   letter-spacing: 1px;
 }
 
-.rsvp-section p {
-  font-size: 11px;
+.time {
+  font-size: 1.5rem;
+  color: #a68b5b;
+  font-weight: 600;
   margin-bottom: 15px;
-  opacity: 0.8;
+  letter-spacing: 2px;
+}
+
+.location-link {
+  color: #9a8266;
+  text-decoration: none;
+  font-size: 1.1rem;
+  border-bottom: 1px solid transparent;
+  transition: all 0.3s ease;
+  padding: 5px 0;
+}
+
+.location-link:hover {
+  color: #a68b5b;
+  border-bottom-color: #d4c4a8;
+}
+
+.rsvp-section {
+  padding: 80px 20px;
+  text-align: center;
+  background: #faf7f2;
+  border-top: 1px solid #e8dcc0;
+}
+
+.rsvp-section h2 {
+  font-size: 2.2rem;
+  color: #a68b5b;
+  margin-bottom: 30px;
+  font-weight: 300;
+}
+
+.rsvp-section p {
+  font-size: 1.2rem;
+  color: #8b7355;
+  margin-bottom: 40px;
+}
+
+.contact-info {
+  margin-top: 40px;
+}
+
+.contact-info p:first-child {
+  font-weight: 500;
+  color: #8b7355;
+  margin-bottom: 15px;
 }
 
 .contact-info {
   display: flex;
-  justify-content: space-around;
-  margin-bottom: 15px;
-  font-size: 11px;
-}
-
-.whatsapp-link {
-  color: #6b5b47;
-  text-decoration: none;
-  border-bottom: 1px dotted #25d366;
-}
-
-.whatsapp-link:hover {
-  color: #25d366;
-  text-decoration: none;
-}
-
-.contact {
-  flex: 1;
-}
-
-.rsvp-toggle-btn {
-  display: inline-block;
-  padding: 8px 16px;
-  background: #8b7355;
-  color: white;
-  border: none;
-  border-radius: 20px;
-  font-family: inherit;
-  font-size: 11px;
-  letter-spacing: 1px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  margin-top: 5px;
-  text-decoration: none;
-}
-
-.rsvp-toggle-btn:hover {
-  background: #6b5b47;
-  transform: translateY(-2px);
-}
-
-/* Flip Button Styles */
-.flip-button-container {
-  display: flex;
-  justify-content: center;
-}
-
-.flip-btn {
-  display: flex;
+  flex-direction: column;
   align-items: center;
   gap: 8px;
-  padding: 12px 24px;
-  background: #8b7355;
-  color: white;
-  border: none;
-  border-radius: 25px;
-  font-family: inherit;
-  font-size: 14px;
-  letter-spacing: 1px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 5px 15px rgba(139, 115, 85, 0.3);
 }
 
-.flip-btn:hover {
-  background: #6b5b47;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(139, 115, 85, 0.4);
+.guest-form {
+  max-width: 500px;
+  margin: 0 auto 40px;
+  padding: 40px 30px;
+  background: rgba(250, 247, 242, 0.8);
+  border-radius: 15px;
+  border: 1px solid #e8dcc0;
 }
 
-.flip-icon {
-  font-size: 18px;
-  transition: transform 0.3s ease;
+.guest-list {
+  margin-bottom: 25px;
 }
 
-.flip-btn:hover .flip-icon {
-  transform: rotate(180deg);
+.guest-input-group {
+  margin-bottom: 15px;
 }
 
-/* RSVP Form Section */
-.rsvp-form-section {
-  width: 100%;
-  max-width: 600px;
-  padding: 40px 20px;
-}
-
-.rsvp-form-card {
-  background: white;
-  padding: 40px;
-  border-radius: 20px;
-  box-shadow: 0 20px 40px rgba(90, 74, 58, 0.3);
-}
-
-.form-header {
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-.form-header h2 {
-  color: #8b7355;
-  font-size: 1.8rem;
-  letter-spacing: 1px;
-}
-
-.rsvp-form {
+.input-row {
   display: flex;
-  flex-direction: column;
+  gap: 10px;
+  align-items: center;
 }
 
-.form-group {
+.guest-input {
+  flex: 1;
+  padding: 12px 15px;
+  border: 1px solid #d4c4a8;
+  border-radius: 8px;
+  background: #faf7f2;
+  color: #8b7355;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: all 0.3s ease;
+}
+
+.guest-input:focus {
+  outline: none;
+  border-color: #a68b5b;
+  box-shadow: 0 0 0 2px rgba(166, 139, 91, 0.1);
+}
+
+.guest-input::placeholder {
+  color: #b8a082;
+}
+
+.remove-guest-btn {
+  width: 35px;
+  height: 35px;
+  border: none;
+  background: #d4c4a8;
+  color: #8b7355;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.2rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.remove-guest-btn:hover {
+  background: #c0b296;
+  transform: scale(1.1);
+}
+
+.add-guest-btn {
+  width: 100%;
+  padding: 12px 20px;
+  background: transparent;
+  border: 2px dashed #d4c4a8;
+  color: #a68b5b;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: all 0.3s ease;
   margin-bottom: 20px;
 }
 
-.form-group label {
-  display: block;
-  margin-bottom: 5px;
-  color: #8b7355;
-  font-weight: 500;
-  font-size: 0.9rem;
+.add-guest-btn:hover {
+  border-color: #a68b5b;
+  background: rgba(166, 139, 91, 0.05);
 }
 
-.form-group input,
-.form-group select,
-.form-group textarea {
+.submit-rsvp-btn {
   width: 100%;
-  padding: 12px 16px;
-  border: 2px solid #e8e2db;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-family: inherit;
-  transition: border-color 0.3s ease;
-  background: #faf8f5;
-}
-
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
-  outline: none;
-  border-color: #8b7355;
-}
-
-.form-group input:disabled,
-.form-group select:disabled,
-.form-group textarea:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.submit-btn {
-  width: 100%;
-  padding: 15px;
-  background: #8b7355;
-  color: white;
+  padding: 15px 30px;
+  background: linear-gradient(135deg, #a68b5b, #8b7355);
+  color: #faf7f2;
   border: none;
   border-radius: 8px;
+  cursor: pointer;
   font-size: 1.1rem;
   font-family: inherit;
-  cursor: pointer;
-  transition: all 0.3s ease;
+  font-weight: 500;
   letter-spacing: 1px;
-  margin-top: 10px;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
 }
 
-.submit-btn:hover:not(:disabled) {
-  background: #5a4a3a;
+.submit-rsvp-btn:hover:not(:disabled) {
   transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(139, 115, 85, 0.3);
 }
 
-.submit-btn:disabled {
-  background: #ccc;
+.submit-rsvp-btn:disabled {
+  opacity: 0.6;
   cursor: not-allowed;
   transform: none;
 }
 
 .success-message {
-  background: #d4edda;
-  color: #155724;
-  padding: 15px;
-  border-radius: 8px;
   margin-top: 20px;
+  padding: 15px;
+  background: rgba(139, 115, 85, 0.1);
+  color: #8b7355;
+  border-radius: 8px;
   text-align: center;
-  font-size: 0.9rem;
+  font-weight: 500;
+  border: 1px solid #d4c4a8;
 }
 
-.error-message {
-  background: #f8d7da;
-  color: #721c24;
-  padding: 15px;
-  border-radius: 8px;
-  margin-top: 20px;
-  text-align: center;
-  font-size: 0.9rem;
+.quote-author {
+  font-size: 0.9em;
+  color: #b8a082;
+  font-style: normal;
 }
 
-/* Responsive Design */
-@media (max-width: 480px) {
-  .card {
-    width: 90vw;
-    max-width: 350px;
-    height: 500px; /* Increased height for mobile */
+.contact-info a {
+  color: #a68b5b;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.contact-info a:hover {
+  color: #8b7355;
+}
+
+.footer {
+  padding: 60px 20px 40px;
+  text-align: center;
+  background: linear-gradient(135deg, #f5f0e8 0%, #ede7d9 100%);
+}
+
+.quote {
+  font-size: 1.3rem;
+  color: #9a8266;
+  font-style: italic;
+  margin-bottom: 30px;
+  line-height: 1.8;
+}
+
+.hearts {
+  font-size: 2rem;
+  color: #d4c4a8;
+  letter-spacing: 15px;
+}
+
+@media (max-width: 768px) {
+  .couple-names {
+    font-size: 2.5rem;
   }
 
-  .names {
-    font-size: 28px;
+  .wedding-date {
+    font-size: 1.4rem;
   }
 
-  .details-content {
-    padding: 30px 20px; /* Reduced padding */
+  .couple-photo {
+    width: 220px;
+    height: 220px;
   }
 
-  .details-header h1 {
-    font-size: 36px;
-    margin-bottom: 20px; /* Reduced margin */
-  }
-
-  .event-details {
-    margin-bottom: 15px;
+  .timeline-section h2 {
+    font-size: 2rem;
   }
 
   .event {
-    margin-bottom: 12px; /* Reduced spacing between events */
+    padding: 25px 20px;
   }
 
-  .event h3 {
-    font-size: 12px;
-    margin-bottom: 3px;
-  }
-
-  .time {
-    font-size: 14px;
-    margin-bottom: 3px;
-  }
-
-  .location-link {
-    font-size: 10px;
-  }
-
-  .rsvp-section {
-    padding-top: 5px;
-  }
-
-  .rsvp-section h2 {
-    font-size: 14px;
-    margin-bottom: 5px;
-  }
-
-  .rsvp-section p {
-    font-size: 10px;
-    margin-bottom: 10px;
-  }
-
-  .contact-info {
-    flex-direction: row; /* Keep horizontal to save space */
-    gap: 15px;
-    margin-bottom: 10px;
-    font-size: 10px;
-  }
-
-  .rsvp-form-card {
+  .guest-form {
     padding: 30px 20px;
+    margin: 0 auto 30px;
   }
 
-  .form-header h2 {
-    font-size: 1.5rem;
+  .input-row {
+    flex-direction: column;
+    gap: 10px;
   }
 
-  .flip-btn {
-    padding: 10px 20px;
-    font-size: 13px;
-  }
-
-  .rsvp-toggle-btn {
-    font-size: 10px;
-    padding: 6px 14px;
+  .remove-guest-btn {
+    align-self: center;
+    margin-top: 5px;
   }
 }
 
-/* Print Styles */
-@media print {
-  #app {
-    background: white;
+@media (max-width: 480px) {
+  .couple-names {
+    font-size: 2rem;
   }
 
-  .flip-button-container,
-  .rsvp-form-section {
-    display: none;
+  .hero-section {
+    padding: 40px 15px;
   }
 
-  .card {
-    transform: none !important;
+  .timeline-section {
+    padding: 60px 15px;
   }
 
-  .card-front {
-    page-break-after: always;
+  .rsvp-section {
+    padding: 60px 15px;
   }
 }
 </style>
